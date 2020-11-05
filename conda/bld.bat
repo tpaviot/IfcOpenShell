@@ -1,9 +1,3 @@
-mkdir build && cd build
-
-REM Remove dot from PY_VER for use in library name
-REM From https://github.com/tpaviot/pythonocc-core/blob/master/ci/conda/bld.bat
-set MY_PY_VER=%PY_VER:.=%
-
 cmake -G "NMake Makefiles" ^
  -DCMAKE_INSTALL_PREFIX="%LIBRARY_PREFIX%" ^
  -DCMAKE_BUILD_TYPE=Release ^
@@ -14,16 +8,17 @@ cmake -G "NMake Makefiles" ^
  -DPYTHON_LIBRARY="%PREFIX%"/libs/python%MY_PY_VER%.lib ^
  -DBOOST_LIBRARYDIR="%LIBRARY_PREFIX%\lib" ^
  -DBOOST_INCLUDEDIR="%LIBRARY_PREFIX%\include" ^
- -DOCC_INCLUDE_DIR="%LIBRARY_PREFIX%\include\oce" ^
+ -DOCC_INCLUDE_DIR="%LIBRARY_PREFIX%\include\opencascade" ^
  -DOCC_LIBRARY_DIR="%LIBRARY_PREFIX%\lib" ^
- -DCOLLADA_SUPPORT=Off ^
- -DBUILD_EXAMPLES=Off ^
- -DBUILD_GEOMSERVER=Off ^
- -DBUILD_CONVERT=Off ^
- ../cmake
+ -DCOLLADA_SUPPORT=OFF ^
+ -DBUILD_EXAMPLES=OFF ^
+ -DBUILD_GEOMSERVER=OFF ^
+ -DBUILD_CONVERT=OFF ^
+ -DIFCXML_SUPPORT=ON ^
+ ./cmake
  
 if errorlevel 1 exit 1
 
-cmake --build . --target INSTALL --config Release
+nmake
 
 if errorlevel 1 exit 1
