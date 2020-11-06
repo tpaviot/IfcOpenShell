@@ -1,4 +1,4 @@
-cmake -G "NMake Makefiles" ^
+cmake -G "Ninja" ^
  -DCMAKE_INSTALL_PREFIX="%LIBRARY_PREFIX%" ^
  -DCMAKE_BUILD_TYPE=Release ^
  -DCMAKE_PREFIX_PATH="%LIBRARY_PREFIX%" ^
@@ -16,9 +16,10 @@ cmake -G "NMake Makefiles" ^
  -DBUILD_CONVERT=OFF ^
  -DIFCXML_SUPPORT=ON ^
  ./cmake
- 
+ if errorlevel 1 exit 1
+
+ninja
 if errorlevel 1 exit 1
 
-nmake
-
+ninja install
 if errorlevel 1 exit 1

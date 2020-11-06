@@ -6,7 +6,7 @@ if [[ ${HOST} =~ .*linux.* ]]; then
     CMAKE_PLATFORM_FLAGS+=(-DCMAKE_TOOLCHAIN_FILE="${RECIPE_DIR}/cross-linux.cmake")
 fi
 
-cmake \
+cmake -G Ninja \
  -DCMAKE_INSTALL_PREFIX=$PREFIX \
  -DCMAKE_BUILD_TYPE=Release \
   ${CMAKE_PLATFORM_FLAGS[@]} \
@@ -21,6 +21,6 @@ cmake \
  -DLIBXML2_INCLUDE_DIR=$PREFIX/include/libxml2 \
  ./cmake
 
-make
+ninja
 
-make install
+ninja install
