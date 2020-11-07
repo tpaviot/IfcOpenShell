@@ -17,6 +17,26 @@
 #                                                                              #
 ################################################################################
 
+find_package(Python3 COMPONENTS Interpreter Development REQUIRED)
+message(STATUS "Python3 interpreter:" ${Python3_EXECUTABLE})
+message(STATUS "Python include directory: ${Python3_INCLUDE_DIR}")
+message(STATUS "Python library release: ${Python3_LIBRARY_RELEASE}")
+
+# Explicitly opt-in to deprecated behavior of CMP0058
+cmake_policy(SET CMP0058 NEW)
+
+## cmake policies
+if (NOT CMAKE_VERSION VERSION_LESS "3.13")
+    # CMP0077: option() honors normal variables
+    # https://cmake.org/cmake/help/latest/policy/CMP0077.html
+    cmake_policy(SET CMP0077 NEW)
+    # CMP0078: UseSWIG generates standard target names.
+    # https://cmake.org/cmake/help/latest/policy/CMP0078.html
+    cmake_policy(SET CMP0078 OLD)
+    # CMP0086: UseSWIG honors SWIG_MODULE_NAME via -module
+    cmake_policy(SET CMP0086 OLD)
+endif()
+
 find_package(SWIG)
 if(NOT SWIG_FOUND)
 	message(FATAL_ERROR "BUILD_IFCPYTHON enabled, but unable to find SWIG. Disable BUILD_IFCPYTHON or fix SWIG paths to proceed.")
@@ -33,14 +53,7 @@ if(NOT "$ENV{PYTHON_LIBRARY}" STREQUAL "")
 	message(STATUS "Looking for Python library file in: ${PYTHON_LIBRARY}")
 endif()
 
-# NOTE PYTHONLIBS_FOUND and PYTHONINTERP_FOUND cannot seem to be trusted so
-# we need further checks to see whether the packages were actually found or not.
-find_package(PythonLibs)
-if(NOT PYTHONLIBS_FOUND OR "$PYTHON_INCLUDE_DIRS}" STREQUAL "")
-	message(FATAL_ERROR "BUILD_IFCPYTHON enabled, but unable to find Python lib or header. Disable BUILD_IFCPYTHON or fix Python paths to proceed.")
-endif()
-
-include_directories(${PYTHON_INCLUDE_DIRS} ${CMAKE_CURRENT_SOURCE_DIR})
+include_directories(${Python3_INCLUDE_DIRS} ${CMAKE_CURRENT_SOURCE_DIR})
 
 set(CMAKE_SWIG_FLAGS "")
 # NOTE Workaround for most likely missing debug Python libraries on Windows (requires Python built from the source).
@@ -65,22 +78,21 @@ endif()
 
 # Try to find the Python interpreter to get the site-packages
 # directory in which the wrapper can be installed.
-find_package(PythonInterp)
-if(PYTHONINTERP_FOUND AND NOT "${PYTHON_EXECUTABLE}" STREQUAL "")
+if(Python3_Interpreter_FOUND AND NOT "${Python3_EXECUTABLE}" STREQUAL "")
     if(USERSPACE_PYTHON_PREFIX)
         EXECUTE_PROCESS(
-            COMMAND ${PYTHON_EXECUTABLE} -c "import sys; import site; sys.stdout.write(site.USER_SITE)"
+            COMMAND ${Python3_EXECUTABLE} -c "import sys; import site; sys.stdout.write(site.USER_SITE)"
             OUTPUT_VARIABLE python_package_dir
         )
     else()
         EXECUTE_PROCESS(
-            COMMAND ${PYTHON_EXECUTABLE} -c "import sys; from distutils.sysconfig import get_python_lib; sys.stdout.write(get_python_lib(1))"
+            COMMAND ${Python3_EXECUTABLE} -c "import sys; from distutils.sysconfig import get_python_lib; sys.stdout.write(get_python_lib(1))"
             OUTPUT_VARIABLE python_package_dir
         )
     endif()
 
     if("${python_package_dir}" STREQUAL "")
-        message(WARNING "Unable to locate Python site-package directory, unable to install the Python wrapper")
+        message(FATAL_ERROR "Unable to locate Python site-package directory, unable to install the Python wrapper")
     else()
         file(GLOB_RECURSE sourcefiles 
             "${CMAKE_CURRENT_SOURCE_DIR}/../ifcopenshell-python/ifcopenshell/*"

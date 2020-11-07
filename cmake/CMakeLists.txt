@@ -662,7 +662,7 @@ if(BUILD_GEOMSERVER)
 endif(BUILD_GEOMSERVER)
 
 if(BUILD_IFCPYTHON)
-	add_subdirectory(../src/ifcwrap ifcwrap)
+    add_subdirectory(../src/ifcwrap ifcwrap)
 endif()
 
 if(BUILD_EXAMPLES)
