@@ -15,6 +15,7 @@ cmake -G "Ninja" ^
  -DBUILD_GEOMSERVER=ON ^
  -DBUILD_CONVERT=OFN ^
  -DIFCXML_SUPPORT=ON ^
+ -DMSVC_EXTRA_WARNINGS=OFF ^
  ./cmake
  if errorlevel 1 exit 1
 
