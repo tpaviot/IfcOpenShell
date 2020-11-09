@@ -22,13 +22,18 @@
 import os
 import uuid
 
+print("Importing ifcopenshell modules ...", end="")
 import ifcopenshell
 import ifcopenshell.geom
 import ifcopenshell.guid
+print("done.")
 
+print("Opening acad2010_walls test file ...", end="")
 f = ifcopenshell.open("input/acad2010_walls.ifc")
+print("done.")
 
 # Some operations on ifcopenshell.file
+print("Perform assertions ...", end ="")
 assert f[1].is_a("IfcCartesianPoint")
 assert f[1].is_a("IfcRepresentationItem")
 assert f[1].is_a() == "IfcCartesianPoint"
@@ -98,9 +103,12 @@ tree_settings.set(tree_settings.DISABLE_OPENING_SUBTRACTIONS, True)
 t = ifcopenshell.geom.tree(f, tree_settings)
 # This wall is connected to two other walls
 assert len(t.select_box(f[48], extend=0.1)) == 3
+print("done.")
 
 # Test serialization
+print("Test serialization ...", end="")
 f.write("output.ifc")
 with open("output.ifc") as txt:
     assert '123' in txt.read()
 os.unlink("output.ifc")
+print("done.")
