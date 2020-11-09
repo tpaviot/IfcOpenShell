@@ -33,11 +33,6 @@ requirements:
     - libboost
     - libxml2
 
-test:
-  imports:
-    - ifcopenshell
-    - ifcopenshell.geom
-
 about:
   home: http://ifcopenshell.org
   license: LGPL
