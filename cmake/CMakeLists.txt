@@ -43,6 +43,7 @@ option(BUILD_GEOMSERVER "Build IfcGeomServer executable." ON)
 option(BUILD_CONVERT "Build IfcConvert executable." ON)
 if(MSVC)
     OPTION(USE_VLD "Use Visual Leak Detector for debugging memory leaks, MSVC-only." OFF)
+    OPTION(MSVC_EXTRA_WARNINGS "Enable /W4 warning level" ON)
 endif()
 option(USE_MMAP "Adds a command line options to parse IFC files from memory mapped files using Boost.Iostreams" OFF)
 option(BUILD_SHARED_LIBS "Build IfcParse and IfcGeom as shared libs (SO/DLL)." OFF)
@@ -428,7 +429,10 @@ if(MSVC)
 	add_definitions(-D_SCL_SECURE_NO_WARNINGS -D_CRT_SECURE_NO_WARNINGS)
 	add_definitions(-bigobj) # required for building the big ifcXXX.objs, https://msdn.microsoft.com/en-us/library/ms173499.aspx
 	# Bump up the warning level from the default 3 to 4.
-	add_definitions(-W4)
+    # Be careful, this raises many D9025 warnings that cannot be suppressed
+    if(MSVC_EXTRA_WARNINGS)
+	   add_definitions(-W4)
+    endif()
 	if(MSVC_VERSION GREATER 1800) # > 2013
 		# Disable overeager and false positives causing C4458 ("declaration of 'indentifier' hides class member"), at least for now.
 		add_definitions(-wd4458)
