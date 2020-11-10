@@ -23,6 +23,21 @@ set(CMAKE_CXX_STANDARD_REQUIRED ON)  # not necessary, but encouraged
 
 project (IfcOpenShell)
 
+# Explicitly opt-in to deprecated behavior of CMP0058
+cmake_policy(SET CMP0058 NEW)
+
+## cmake policies
+if (NOT CMAKE_VERSION VERSION_LESS "3.13")
+    # CMP0077: option() honors normal variables
+    # https://cmake.org/cmake/help/latest/policy/CMP0077.html
+    cmake_policy(SET CMP0077 NEW)
+    # CMP0078: UseSWIG generates standard target names.
+    # https://cmake.org/cmake/help/latest/policy/CMP0078.html
+    cmake_policy(SET CMP0078 OLD)
+    # CMP0086: UseSWIG honors SWIG_MODULE_NAME via -module
+    cmake_policy(SET CMP0086 OLD)
+endif()
+
 foreach(max_year RANGE 2014 2030)
     set(max_sdk "$ENV{ADSK_3DSMAX_SDK_${max_year}}")
     if (NOT "${max_sdk}" STREQUAL "")
@@ -666,6 +681,10 @@ if(BUILD_GEOMSERVER)
 endif(BUILD_GEOMSERVER)
 
 if(BUILD_IFCPYTHON)
+    find_package(Python3 COMPONENTS Interpreter Development REQUIRED)
+    message(STATUS "Python3 interpreter:" ${Python3_EXECUTABLE})
+    message(STATUS "Python include directory: ${Python3_INCLUDE_DIR}")
+    message(STATUS "Python library release: ${Python3_LIBRARY_RELEASE}")
     add_subdirectory(../src/ifcwrap ifcwrap)
 endif()
 
