@@ -23,13 +23,13 @@ requirements:
 
   host:
     - python {{ python }}
-    - occt ==7.4.0
+    - occt ==7.5.0
     - libboost
     - libxml2
 
   run:
     - python
-    - occt ==7.4.0
+    - occt ==7.5.0
     - libboost
     - libxml2
 
