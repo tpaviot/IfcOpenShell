@@ -32,6 +32,8 @@ requirements:
     - occt ==7.5.0
     - libboost
     - libxml2
+    - lark-parser
+    - deepdiff
 
 about:
   home: http://ifcopenshell.org
