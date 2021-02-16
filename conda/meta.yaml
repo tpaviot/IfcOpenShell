@@ -17,8 +17,8 @@ requirements:
     - {{ cdt('libx11-devel') }}         # [linux]
     - {{ cdt('xorg-x11-proto-devel') }} # [linux]
     - {{ cdt('mesa-libgl-devel') }}     # [linux]
-    - ninja ==1.7.1
-    - cmake ==3.15.4
+    - ninja ==1.10.2
+    - cmake
     - swig ==4.0.2
 
   host:
