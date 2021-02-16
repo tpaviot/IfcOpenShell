@@ -698,14 +698,6 @@ if(BUILD_DOCUMENTATION)
 	add_subdirectory(../docs docs)
 endif()
 
-if(BUILD_IFCPYTHON)
-	add_subdirectory(../src/ifcwrap ifcwrap)
-endif()
-
-if(BUILD_EXAMPLES)
-	add_subdirectory(../src/examples examples)
-endif()
-
 if(BUILD_IFCMAX)
 	add_subdirectory(../src/ifcmax ifcmax)
 endif()
