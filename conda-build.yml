@@ -3,6 +3,7 @@ parameters:
   vmImage: 'Ubuntu-18.04'
   py_maj: '3'
   py_min: '6'
+  location: 'conda'
   conda_bld: '3.16.3'
 
 jobs:
@@ -56,10 +57,11 @@ jobs:
     
   - bash: |
       source activate build_env && \
-      conda build --no-remove-work-dir --dirty conda
+      conda build --no-remove-work-dir --token $TOKEN --user tpaviot -c tpaviot ${{ parameters.location }}
     displayName: 'Run conda build'
     failOnStderr: false
     env:
       PYTHONBUFFERED: 1
       PYTHON_VERSION: ${{ parameters.py_maj }}.${{ parameters.py_min }}
       PACKAGE_VERSION: $(Build.SourceBranchName)
+      TOKEN: $(anaconda.TOKEN)
