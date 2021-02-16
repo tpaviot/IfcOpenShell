@@ -58,7 +58,7 @@ jobs:
   - bash: |
       source activate build_env && \
       conda config --set anaconda_upload yes && \
-      conda build --no-remove-work-dir --token $TOKEN --user tpaviot -c tpaviot ${{ parameters.location }}
+      conda build --no-remove-work-dir --dirty --token $TOKEN --user tpaviot -c tpaviot ${{ parameters.location }}
     displayName: 'Run conda build'
     failOnStderr: false
     env:
