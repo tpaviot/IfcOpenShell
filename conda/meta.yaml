@@ -1,4 +1,4 @@
-{% set version = "0.6.0.d7f289b" %}
+{% set version = "0.6.0.8625aab5" %}
 
 package:
   name: ifcopenshell
@@ -22,13 +22,14 @@ requirements:
 
   host:
     - python {{ python }}
-    - occt ==7.5.0
+    - occt ==7.4.0
     - libboost
     - libxml2
 
   run:
     - python
-    - occt ==7.5.0
+    - occt ==7.4.0
+    - pythonocc-core ==7.4.1
     - libboost
     - libxml2
     - lark-parser
