@@ -1,5 +1,4 @@
 #!/bin/bash
-# make an in source build do to some problems with install
 
 declare -a CMAKE_PLATFORM_FLAGS
 if [[ ${HOST} =~ .*linux.* ]]; then

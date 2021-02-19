@@ -1,4 +1,4 @@
-{% set version = "0.6.0.8625aab5" %}
+{% set version = "0.6.0.a0f79cc" %}
 
 package:
   name: ifcopenshell
