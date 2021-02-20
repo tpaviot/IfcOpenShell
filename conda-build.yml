@@ -52,7 +52,7 @@ jobs:
         conda config --add channels https://conda.anaconda.org/conda-forge
     displayName: 'Conda config and info'
 
-  - bash: conda create --yes --quiet --name build_env conda-build=${{ parameters.conda_bld }} conda-verify libarchive python=${{ parameters.py_maj }}.${{ parameters.py_min }} anaconda-client
+  - bash: conda create --yes --quiet --name build_env conda-build=${{ parameters.conda_bld }} conda-verify libarchive python=${{ parameters.py_maj }}.${{ parameters.py_min }} anaconda-client=1.7.2
     displayName: Create Anaconda environment
     
   - bash: |
